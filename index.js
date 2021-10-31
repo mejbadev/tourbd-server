@@ -36,9 +36,9 @@ async function run(){
 
      app.get('/orders/:id', async (req, res)=>{
       const id = req.params.id;
-      console.log('hiiting specific id', id);
       const query ={_id:ObjectId(id)};
       const service = await orderCollections.findOne(query);
+      console.log(result);
       res.json(service);
   });
      app.get('/orders', async (req, res)=>{
@@ -71,10 +71,28 @@ async function run(){
         res.json(result);
 
      });
+
+     app.put('/orders/:id', async (req, res)=>{
+      const id= req.params.id;
+      const updateOrder = req.body;
+      console.log(req.body);
+      const filter = {_id:ObjectId(id)}; 
+      const option = {upsert: true};
+      const updateDoc ={
+          $set : {
+              status: updateOrder.status
+          }
+      };
+
+      const result = await orderCollections.updateOne(filter, updateDoc, option);
+      // const result = await users.updateOne(query, updateUser);
+      res.json(result);
+  });
      app.delete('/orders/:id', async (req, res)=>{
       const id= req.params.id;
       const query={_id:ObjectId(id)};
       const result = await orderCollections.deleteOne(query);
+     
       res.json(result);
 
   });
