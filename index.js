@@ -34,7 +34,13 @@ async function run(){
         res.json(result);
      });
 
-
+     app.get('/orders/:id', async (req, res)=>{
+      const id = req.params.id;
+      console.log('hiiting specific id', id);
+      const query ={_id:ObjectId(id)};
+      const service = await orderCollections.findOne(query);
+      res.json(service);
+  });
      app.get('/orders', async (req, res)=>{
        const result = orderCollections.find({});
        const orders = await result.toArray();
@@ -65,6 +71,13 @@ async function run(){
         res.json(result);
 
      });
+     app.delete('/orders/:id', async (req, res)=>{
+      const id= req.params.id;
+      const query={_id:ObjectId(id)};
+      const result = await orderCollections.deleteOne(query);
+      res.json(result);
+
+  });
     }finally{
         //  await client.close();
     }
@@ -74,7 +87,7 @@ async function run(){
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello! Bangladesh')
 })
 
 app.listen(port, () => {
