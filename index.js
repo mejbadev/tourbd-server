@@ -51,7 +51,7 @@ async function run(){
       const paramEmail = req.params.email;
       const query = {email:paramEmail};
       console.log('loading data from id', paramEmail);
-      const result = await orderCollections.find(query);
+      const result =  orderCollections.find(query);
       const orders = await result.toArray();
       console.log(orders);
       res.json(orders);
